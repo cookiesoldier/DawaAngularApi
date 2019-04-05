@@ -1,0 +1,118 @@
+<div>
+
+  <p>
+    DAWA test program!
+  </p>
+
+  <p> Version 1.1 Single Line search</p>
+  <p> Write your address here, the more precise you the better results are returned, try and match the style of the
+    options provided</p>
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Adresse" matInput [formControl]="mySingleLineAddressControl"
+             [matAutocomplete]="singleLineAddressAuto" (ngModelChange)="mySingleLineAddresOptionsAutoComplete()">
+      <mat-autocomplete #singleLineAddressAuto="matAutocomplete" (optionSelected)="mySingleLineAddressSelect()">
+        <mat-option *ngFor="let option of singleLineAddressOptions" [value]="option.tekst">
+          {{option.tekst}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  <div *ngIf="singleLineAddressSelected">
+    <p>tekst:{{singleLineAddressSelected?.tekst}}</p>
+    <p>vejnavn:{{singleLineAddressSelected?.adresse?.vejnavn}}</p>
+    <p>husnr:{{singleLineAddressSelected?.adresse?.husnr}}</p>
+    <p *ngIf="singleLineAddressSelected?.adresse?.etage">Etage:{{singleLineAddressSelected?.adresse?.etage}}</p>
+    <p *ngIf="singleLineAddressSelected?.adresse?.door">Dør:{{singleLineAddressSelected?.adresse?.door}}</p>
+    <p>postnr:{{singleLineAddressSelected?.adresse?.postnr}}</p>
+    <p>postnrnavn:{{singleLineAddressSelected?.adresse?.postnrnavn}}</p>
+  </div>
+
+  <br>
+  <p>
+    Version 1
+  </p>
+
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <label>
+        <input type="text" placeholder="By" matInput [formControl]="myCityControl"
+               [matAutocomplete]="autoBy" (input)="cityOptionsAutoComplete()">
+      </label>
+      <mat-autocomplete #autoBy="matAutocomplete" (optionSelected)="citySelect($event)">
+        <mat-option *ngFor="let option of cityOptions" [value]="option.postnummer.navn">
+          {{option.postnummer.navn}},{{option.postnummer.nr}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <label>
+        <input matInput type="number" #postalCode maxlength="4"
+               placeholder="Postnummer" matInput [formControl]="postnummerControl"
+               [matAutocomplete]="autoPostnummer" (input)="postnummerOptionsAutoComplete()">
+      </label>
+      <mat-hint align="end">{{postalCode.value.length}} / 4</mat-hint>
+      <mat-autocomplete #autoPostnummer="matAutocomplete" (optionSelected)="postnummerSelect()">
+        <mat-option *ngFor="let option of postnummerOptions" [value]="option.postnummer.nr">
+          {{option.postnummer.nr}}, {{option.postnummer.navn}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Adresse" matInput [formControl]="myRoadControl"
+             [matAutocomplete]="autoRoad" (ngModelChange)="addressOptionsAutoComplete()">
+      <mat-autocomplete #autoRoad="matAutocomplete" (optionSelected)="addressSelect()">
+        <mat-option *ngFor="let option of addressOptions" [value]="option.adresse.vejnavn">
+          {{option.adresse.vejnavn}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input type="number" placeholder="Hus nummer" matInput [formControl]="myRoadNumberControl"
+             [matAutocomplete]="autoRoadNumber" (ngModelChange)="roadNumberOptionsAutoComplete()">
+      <mat-autocomplete #autoRoadNumber="matAutocomplete" (optionSelected)="roadNumberSelect()">
+        <mat-option *ngFor="let option of roadNrOptions" [value]="option.adresse.husnr">
+          {{option.adresse.husnr}} - {{option.adresse.etage}}, {{option.adresse.door}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+  <!--  <form class="example-form">-->
+  <!--    <mat-form-field>-->
+  <!--      <input type="number" placeholder="Nr" matInput [formControl]="myRoadNrControl"-->
+  <!--             [matAutocomplete]="autoRoadNr" (ngModelChange)="autocompleteRoadNr($event)">-->
+  <!--      <mat-autocomplete #autoRoadNr="matAutocomplete">-->
+  <!--        <mat-option *ngFor="let option of addressOptions" [value]="option.adresse.husnr">-->
+  <!--          {{option.adresse.husnr}}-->
+  <!--        </mat-option>-->
+  <!--      </mat-autocomplete>-->
+  <!--    </mat-form-field>-->
+  <!--  </form>-->
+  <div *ngIf="addressSelected && !roadNumberAddressSelected">
+    <p>tekst:{{addressSelected?.tekst}}</p>
+    <p>vejnavn:{{addressSelected?.adresse?.vejnavn}}</p>
+    <p>husnr:{{addressSelected?.adresse?.husnr}}</p>
+    <p>postnr:{{addressSelected?.adresse?.postnr}}</p>
+    <p>postnrnavn:{{addressSelected?.adresse?.postnrnavn}}</p>
+  </div>
+  <div *ngIf="roadNumberAddressSelected">
+    <p>tekst:{{roadNumberAddressSelected?.tekst}}</p>
+    <p>vejnavn:{{roadNumberAddressSelected?.adresse?.vejnavn}}</p>
+    <p>husnr:{{roadNumberAddressSelected?.adresse?.husnr}}</p>
+    <p>etage:{{roadNumberAddressSelected?.adresse?.etage}} - {{roadNumberAddressSelected?.adresse?.door}}</p>
+    <p>postnr:{{roadNumberAddressSelected?.adresse?.postnr}}</p>
+    <p>postnrnavn:{{roadNumberAddressSelected?.adresse?.postnrnavn}}</p>
+  </div>
+
+
+</div>
+
